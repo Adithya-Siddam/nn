@@ -197,8 +197,6 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 df=pd.read_csv("./IRIS.csv")
 df
 
-df["species"].value_counts()
-
 df.isnull().sum()
 
 df1 = df.copy()
