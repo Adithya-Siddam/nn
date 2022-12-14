@@ -326,5 +326,5 @@ def pred(index,x_train):
   plt.imshow(img)
   plt.show()
 
-make_pred(587,x_train)
+pred(587,x_train)
 ```
