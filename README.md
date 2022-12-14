@@ -188,5 +188,46 @@ predict(w1,w2,test)
 ```
 ## Exp-4-MLP
 ```py
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder,StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
+df=pd.read_csv("./IRIS.csv")
+df
+
+df["species"].value_counts()
+
+df.isnull().sum()
+
+df1 = df.copy()
+df1 = df[:100]
+df1
+
+le = LabelEncoder()
+df1["species"] = le.fit_transform(df1["species"])
+
+X = df1[["sepal_length","sepal_width","petal_length","petal_width"]]
+X
+
+Y = df1["species"]
+Y
+
+Y.value_counts()
+
+x_train,x_test,y_train,y_test = train_test_split(X,Y,test_size=0.3,random_state=0)
+
+mlp = MLPClassifier(hidden_layer_sizes=(10, 10, 10), max_iter=1000)  
+mlp.fit(x_train, y_train)  
+y_pred = mlp.predict(x_test) 
+
+acc = accuracy_score(y_pred,y_test)
+acc
+
+mat = confusion_matrix(y_pred,y_test)
+mat
+
+classi = classification_report(y_pred,y_test)
+print(classi)
 ```
