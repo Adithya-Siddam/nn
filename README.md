@@ -236,7 +236,7 @@ import matplotlib.pyplot as plt
 
 def gaussian_rbf(x, landmark, gamma=1):
     return np.exp(-gamma * np.linalg.norm(x - landmark)**2)
-
+    
 def predict_matrix(point, weights):
     gaussian_rbf_0 = gaussian_rbf(np.array(point), mu1)
     gaussian_rbf_1 = gaussian_rbf(np.array(point), mu2)
@@ -247,8 +247,6 @@ x1 = np.array([0, 0, 1, 1])
 x2 = np.array([0, 1, 0, 1])
 ys = np.array([0, 1, 1, 0])
 
-plt.figure(figsize=(13, 5))
-plt.subplot(1, 2, 1)
 plt.scatter((x1[0], x1[3]), (x2[0], x2[3]), label="Class_0")
 plt.scatter((x1[1], x1[2]), (x2[1], x2[2]), label="Class_1")
 plt.xlabel("X1")
@@ -263,22 +261,18 @@ from_1 = [gaussian_rbf(i, mu1) for i in zip(x1, x2)]
 from_2 = [gaussian_rbf(i, mu2) for i in zip(x1, x2)]
 
 A = []
-
 for i, j in zip(from_1, from_2):
     temp = []
     temp.append(i)
     temp.append(j)
     temp.append(1)
     A.append(temp)
-    
 A = np.array(A)
 W = np.linalg.inv(A.T.dot(A)).dot(A.T).dot(ys)
 print(np.round(A.dot(W)))
 print(ys)
 print("Weights:",W)
 
-plt.figure(figsize=(13, 5))
-plt.subplot(1, 2, 2)
 plt.scatter(from_1[0], from_2[0], label="Class_0")
 plt.scatter(from_1[1], from_2[1], label="Class_1")
 plt.scatter(from_1[2], from_2[2], label="Class_1")
@@ -290,10 +284,10 @@ plt.ylabel("µ2")
 plt.title("Transformed Inputs")
 plt.legend()
 
-print(f"Input:{np.array([0, 0])}, Predicted: {predict_matrix(np.array([0, 0]), W)}")
-print(f"Input:{np.array([0, 1])}, Predicted: {predict_matrix(np.array([0, 1]), W)}")
-print(f"Input:{np.array([1, 0])}, Predicted: {predict_matrix(np.array([1, 0]), W)}")
-print(f"Input:{np.array([1, 1])}, Predicted: {predict_matrix(np.array([1, 1]), W)}")
+print("Input:",[0, 0],"Predicted:",predict_matrix([0, 0], W))
+print("Input:",[0, 1],"Predicted:",predict_matrix([0, 1], W))
+print("Input:",[1, 0],"Predicted:",predict_matrix([1, 0], W))
+print("Input:",[1, 1],"Predicted:",predict_matrix([1, 1], W))
 ```
 ## Exp-6-Handwriting reg.
 ```py
@@ -301,9 +295,11 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-data = pd.read_csv('train.csv')
+df = pd.read_csv('train.csv')
+df
 
 X = df.iloc[:,1:].values
+#OR X = df.drop("label",axis=1).values
 X
 
 Y = df["label"].values
@@ -319,19 +315,15 @@ y_pred = mlp.predict(x_test)
 from sklearn.metrics import accuracy_score
 print("accuracy =" , accuracy_score(y_pred, y_test)*100)
 
-from sklearn.metrics import confusion_matrix
-confusion_matrix(y_pred,y_test)
+def pred(index,x_train):
+  img = x_train[index]
+  pred = mlp.predict(x_train[[index]])
 
-def make_pred(index,x_train):
-  current_image = x_train[index]
-  prediction = mlp.predict(x_train[[index]])
-
-  print("Prediction: ", prediction)
+  print("Prediction: ", pred)
   print("Label: ",y_train[index])
 
-  current_image = current_image.reshape((28, 28)) * 255
-  plt.gray()
-  plt.imshow(current_image, interpolation='nearest')
+  img = img.reshape((28, 28)) * 255
+  plt.imshow(img)
   plt.show()
 
 make_pred(587,x_train)
