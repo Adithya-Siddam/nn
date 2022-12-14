@@ -1,3 +1,9 @@
+## <a href="https://github.com/secaids/nn/#exp-1-data-preprocessing">Ex_1_Data_PreProcessing</a>
+## <a href="https://github.com/secaids/nn/#exp-2-perceptron">Ex_2_Perceptron</a>
+## <a href="https://github.com/secaids/nn/#exp-3-xor">Ex_3_XOR</a>
+## <a href="https://github.com/secaids/nn/#exp-4-mlp">Ex_4_MLP</a>
+## <a href="https://github.com/secaids/nn/#exp-5-xor-rbf">Ex_5_XOR_RBF</a>
+## <a href="https://github.com/secaids/nn/#exp-6-handwriting-reg">Ex_6_Handwriting reg.</a>
 ## Exp-1-Data Preprocessing
 ```py
 import pandas as pd
@@ -293,7 +299,7 @@ print("Input:",[1, 1],"Predicted:",predict_matrix([1, 1], W))
 ```py
 import numpy as np
 import pandas as pd
-from matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 df = pd.read_csv('train.csv')
 df
