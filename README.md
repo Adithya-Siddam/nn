@@ -1,5 +1,5 @@
 ## Exp-1-Data Preprocessing
-```
+```py
 import pandas as pd
 import numpy as np
 
@@ -12,8 +12,6 @@ df.duplicated()
 
 df.describe()
 
-df['Exited'].describe()
-
 from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
 
@@ -22,7 +20,6 @@ df1 = df.copy()
 df1["Geography"] = le.fit_transform(df1["Geography"])
 df1["Gender"] = le.fit_transform(df1["Gender"])
 
-from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 
 scaler = MinMaxScaler()
