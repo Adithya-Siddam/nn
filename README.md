@@ -295,3 +295,44 @@ print(f"Input:{np.array([0, 1])}, Predicted: {predict_matrix(np.array([0, 1]), W
 print(f"Input:{np.array([1, 0])}, Predicted: {predict_matrix(np.array([1, 0]), W)}")
 print(f"Input:{np.array([1, 1])}, Predicted: {predict_matrix(np.array([1, 1]), W)}")
 ```
+## Exp-6-Handwriting reg.
+```py
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+
+data = pd.read_csv('train.csv')
+
+X = df.iloc[:,1:].values
+X
+
+Y = df["label"].values
+Y
+
+x_train,x_test,y_train,y_test = train_test_split(X,Y,test_size=0.3)
+
+from sklearn.neural_network import MLPClassifier
+mlp = MLPClassifier(hidden_layer_sizes=(10, 10, 10), max_iter=1000)  
+mlp.fit(x_train, y_train)  
+y_pred = mlp.predict(x_test) 
+
+from sklearn.metrics import accuracy_score
+print("accuracy =" , accuracy_score(y_pred, y_test)*100)
+
+from sklearn.metrics import confusion_matrix
+confusion_matrix(y_pred,y_test)
+
+def make_pred(index,x_train):
+  current_image = x_train[index]
+  prediction = mlp.predict(x_train[[index]])
+
+  print("Prediction: ", prediction)
+  print("Label: ",y_train[index])
+
+  current_image = current_image.reshape((28, 28)) * 255
+  plt.gray()
+  plt.imshow(current_image, interpolation='nearest')
+  plt.show()
+
+make_pred(587,x_train)
+```
