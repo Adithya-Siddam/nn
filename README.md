@@ -25,10 +25,10 @@ df1
 
 df1.describe()
 
-X = df1[["CreditScore","Geography","Gender","Age","Tenure","Balance","NumOfProducts","HasCrCard","IsActiveMember","EstimatedSalary"]].values
+X = df1[["CreditScore","Geography","Gender","Age","Tenure","Balance","NumOfProducts","HasCrCard","IsActiveMember","EstimatedSalary"]]
 X
 
-y = df1["Exited"].values
+y = df1["Exited"]
 y
 
 from sklearn.model_selection import train_test_split
@@ -54,24 +54,24 @@ from sklearn.metrics import accuracy_score
 class Perceptron:
   def __init__(self, learning_rate=0.1):
     self.learning_rate = learning_rate
-    self._b = 0.0 
-    self._w = 0 
+    self.b = 0.0 
+    self.w = 0 
     self.misclassified_samples = []
-  def fit(self, x: np.array, y: np.array, n_iter=10):
-    self._b = 0.0
-    self._w = np.zeros(x.shape[1])
+  def fit(self, x, y, n_iter=10):
+    self.b = 0.0
+    self.w = np.zeros(x.shape[1])
     self.misclassified_samples = []
     for i in range(n_iter):
       errors = 0
       for xi,yi in zip(x,y):
         update = self.learning_rate * (yi-self.predict(xi))
-        self._b += update
-        self._w += update*xi
+        self.b += update
+        self.w += update*xi
         errors += int(update !=0)
       self.misclassified_samples.append(errors)
-  def f(self,x:np.array) -> float:
-    return np.dot(x,self._w) + self._b
-  def predict(self, x:np.array):
+  def f(self,x):
+    return np.dot(x,self.w) + self.b
+  def predict(self, x):
     return np.where(self.f(x) >= 0,1,-1)
     
 df = pd.read_csv("./IRIS.csv")
@@ -106,14 +106,14 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25,
                                                     random_state=0)
 classifier = Perceptron(learning_rate=0.01)
 classifier.fit(x_train, y_train)
+y_pred = classifier.predict(x_test)
 
-plt.plot(range(1, len(classifier.misclassified_samples) + 1),
-         classifier.misclassified_samples, marker='o')
+plt.plot(classifier.misclassified_samples, marker='o')
 plt.xlabel('Epoch')
 plt.ylabel('Errors')
 plt.show()
 
-print("accuracy = " , accuracy_score(classifier.predict(x_test), y_test)*100)
+print("accuracy = " , accuracy_score(y_pred, y_test)*100)
 ```
 
 ## Exp-3-XOR
