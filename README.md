@@ -31,18 +31,20 @@ df1
 df1.describe()
 
 X = df1[["CreditScore","Geography","Gender","Age","Tenure","Balance","NumOfProducts","HasCrCard","IsActiveMember","EstimatedSalary"]].values
-print(X)
+X
 
-y = df1.iloc[:,-1].values
-print(y)
+y = df1["Exited"].values
+y
 
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-print(X_train)
+X_train
+
 print("Size of X_train: ",len(X_train))
 
-print(X_test)
+X_test
+
 print("Size of X_test: ",len(X_test))
 
 X_train.shape
