@@ -293,7 +293,7 @@ print("Input:",[1, 1],"Predicted:",predict_matrix([1, 1], W))
 ```py
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
+from matplotlib.pyplot as plt
 
 df = pd.read_csv('train.csv')
 df
