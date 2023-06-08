@@ -295,43 +295,46 @@ print("Input:",[0, 1],"Predicted:",predict_matrix([0, 1], W))
 print("Input:",[1, 0],"Predicted:",predict_matrix([1, 0], W))
 print("Input:",[1, 1],"Predicted:",predict_matrix([1, 1], W))
 ```
-## Exp-6-Handwriting reg.
+## Exp-6-Heart reg.
 ```py
 import numpy as np
 import pandas as pd
+from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('train.csv')
-df
+#Load the dataset
+data=pd.read_csv('heart.csv')
 
-X = df.iloc[:,1:].values
-#OR X = df.drop("label",axis=1).values
-X
+#Separate features and labels
+x=data.iloc[:,:-1].values
+y=data.iloc[:,-1].values
 
-Y = df["label"].values
-Y
+#Split the dataset into training and testing sets
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=42)
 
-from sklearn.model_selection import train_test_split
-x_train,x_test,y_train,y_test = train_test_split(X,Y,test_size=0.3)
+#Normalize the feature data
+scaler=StandardScaler()
+x_train=scaler.fit_transform(x_train)
+x_test=scaler.transform(x_test)
 
-from sklearn.neural_network import MLPClassifier
-mlp = MLPClassifier(hidden_layer_sizes=(10, 10, 10), max_iter=1000)  
-mlp.fit(x_train, y_train)  
-y_pred = mlp.predict(x_test) 
+#Create and train the MLP model
+mlp=MLPClassifier(hidden_layer_sizes=(100,100),max_iter=1000,random_state=42)
+training_loss=mlp.fit(x_train,y_train).loss_curve_
 
-from sklearn.metrics import accuracy_score
-print("accuracy =" , accuracy_score(y_pred, y_test)*100)
+#Make prediction on the testing set
+y_pred=mlp.predict(x_test)
 
-def pred(index,x_train):
-  img = x_train[index]
-  pred = mlp.predict(x_train[[index]])
+#Evaluate the model
+accuracy=accuracy_score(y_test,y_pred)
+print('Accuracy:',accuracy)
 
-  print("Prediction: ", pred)
-  print("Label: ",y_train[index])
-
-  img = img.reshape((28, 28)) * 255
-  plt.imshow(img)
-  plt.show()
-
-pred(587,x_train)
+#PLot the error convergence
+plt.plot(training_loss)
+plt.title("MLP Training Loss Convergence")
+plt.xlabel("Iteration")
+plt.ylabel("Training Loss")
+plt.show()
 ```
